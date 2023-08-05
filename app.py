@@ -3,6 +3,7 @@ from flask_restx import Api, Resource, fields
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow 
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
@@ -11,6 +12,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 jwt = JWTManager(app)
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 # API v1
 api_v1 = Blueprint('v1', __name__, url_prefix='/api/v1')
