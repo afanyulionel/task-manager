@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request
+from flask import Flask, Blueprint, request, send_file
 from flask_restx import Api, Resource, fields
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow 
@@ -15,6 +15,7 @@ jwt = JWTManager(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 # API v1
+
 api_v1 = Blueprint('v1', __name__, url_prefix='/api/v1')
 api = Api(api_v1, doc='/docs', title="Task Api", version="1.0.0", description="A task management api") 
 
@@ -55,7 +56,17 @@ tasks_schema = TaskSchema(many=True)
 with app.app_context():
   db.create_all()
 
+@app.route('/')
+def home():
+  return send_file('dist/index.html')
 
+@app.route('/assets/index-d2fcff36.css') 
+def sendCss():
+  return send_file('dist/assets/index-d2fcff36.css')
+
+@app.route('/assets/index-208f21dd.js') 
+def sendJs():
+  return send_file('dist/assets/index-208f21dd.js')
 # Resources 
 @api.doc()
 @api.route('/tasks')
